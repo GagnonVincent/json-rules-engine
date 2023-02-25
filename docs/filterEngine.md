@@ -7,7 +7,7 @@ An instance of [Engine](./engine.md) is used underneath and run all the conditio
     * [constructor([Array conditions | String json])](#constructorarray-conditions--string-json)
     * [engine.addCondition(Condition instance | Object options)](#filterengineaddconditioncondition-instance--object-options)
     * [engine.removeCondition(Condition instance | Object options)](#filterengineremoveconditioncondition-instance--object-options---boolean)
-    * [engine.run([Object facts]) -&gt; Promise (Objects: [])](#filterenginerunobjects----promiseobjects)
+    * [engine.run(Objects []) -&gt; Promise (Objects [])](#filterenginerunobjects----promiseobjects-)
 
 ## Methods
 
