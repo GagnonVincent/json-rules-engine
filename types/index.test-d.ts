@@ -4,16 +4,24 @@ import rulesEngine, {
   Almanac,
   EngineResult,
   Engine,
+  FilterEngine,
   Fact,
   Operator,
   OperatorEvaluator,
   PathResolver,
   Rule,
   RuleProperties,
-  RuleSerializable
+  RuleSerializable,
+  ConditionProperties
 } from "../";
 
 // setup basic fixture data
+const conditionProps: ConditionProperties = {
+  fact: 'foo',
+  value: 0,
+  operator: 'equals'
+}
+
 const ruleProps: RuleProperties = {
   conditions: {
     all: []
@@ -102,3 +110,11 @@ const almanac: Almanac = (await engine.run()).almanac;
 
 expectType<Promise<string>>(almanac.factValue<string>("test-fact"));
 expectType<void>(almanac.addRuntimeFact("test-fact", "some-value"));
+
+// Condition tests
+const filterEngine = new FilterEngine([conditionProps]);
+expectType<FilterEngine>(filterEngine.addCondition(conditionProps));
+expectType<boolean>(filterEngine.removeCondition(conditionProps));
+
+// Run the Filter-Engine
+expectType<Promise<object>>(filterEngine.run([]));
