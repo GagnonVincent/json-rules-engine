@@ -47,6 +47,15 @@ export class Engine {
   stop(): this;
 }
 
+export class FilterEngine {
+  constructor(conditions?: Array<ConditionProperties> | string);
+
+  addCondition(condition: ConditionProperties): this;
+  removeCondition(condition: ConditionProperties | object): boolean;
+
+  run(facts?: Array<object>): Promise<object>;
+}
+
 export interface OperatorEvaluator<A, B> {
   (factValue: A, compareToValue: B): boolean;
 }

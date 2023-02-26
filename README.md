@@ -46,6 +46,7 @@ $ npm install json-rules-engine
 - [rules](./docs/rules.md)
 - [almanac](./docs/almanac.md)
 - [facts](./docs/facts.md)
+- [filter-engine](./docs/filterEngine.md)
 
 ## Examples
 
