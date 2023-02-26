@@ -5,9 +5,9 @@ An instance of [Engine](./engine.md) is used underneath and run all the conditio
 
 * [Methods](#methods)
     * [constructor([Array conditions | String json])](#constructorarray-conditions--string-json)
-    * [engine.addCondition(Condition instance | Object options)](#filterengineaddconditioncondition-instance--object-options)
-    * [engine.removeCondition(Condition instance | Object options)](#filterengineremoveconditioncondition-instance--object-options---boolean)
-    * [engine.run(Objects []) -&gt; Promise (Objects [])](#filterenginerunobjects----promiseobjects-)
+    * [filterEngine.addCondition(Condition instance | Object options)](#filterengineaddconditioncondition-instance--object-options)
+    * [filterEngine.removeCondition(Condition instance | Object options)](#filterengineremoveconditioncondition-instance--object-options---boolean)
+    * [filterEngine.run(Objects []) -&gt; Promise (Objects [])](#filterenginerunobjects----promiseobjects-)
 
 ## Methods
 
@@ -63,12 +63,12 @@ let condition = new Condition({
     }]
   })
 
-engine.addCondition(condition)
+filterEngine.addCondition(condition)
 
 //remove it by instance
-engine.removeCondition(condition)
+filterEngine.removeCondition(condition)
 //or by options
-engine.removeCondition({
+filterEngine.removeCondition({
     any: [{
       fact: 'age',
       operator: 'lessThan',
@@ -93,6 +93,6 @@ const facts = [
 ]
 
 // run the filter engine
-const results = await engine.run(facts)
+const results = await filterEngine.run(facts)
 ```
 Link to the [Conditions documentation](./rules.md#conditions)
