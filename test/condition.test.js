@@ -12,6 +12,7 @@ function condition () {
   return {
     all: [{
       id: '6ed20017-375f-40c9-a1d2-6d7e0f4733c5',
+      name: 'team participation in form',
       fact: 'team_participation',
       operator: 'equal',
       value: 50,
@@ -29,6 +30,7 @@ describe('Condition', () => {
       expect(subject).to.have.property('operator')
       expect(subject).to.have.property('value')
       expect(subject).to.have.property('path')
+      expect(subject).to.have.property('name')
     })
 
     it('boolean conditions have properties', () => {
@@ -55,6 +57,26 @@ describe('Condition', () => {
       const condition = new Condition(properties)
       const json = condition.toJSON()
       expect(json).to.equal('{"operator":"equal","value":{"fact":"weight","params":{"unit":"lbs"},"path":".value"},"fact":"age"}')
+    })
+
+    it('converts "not" conditions', () => {
+      const properties = {
+        not: {
+          ...factories.condition({
+            fact: 'age',
+            value: {
+              fact: 'weight',
+              params: {
+                unit: 'lbs'
+              },
+              path: '.value'
+            }
+          })
+        }
+      }
+      const condition = new Condition(properties)
+      const json = condition.toJSON()
+      expect(json).to.equal('{"priority":1,"not":{"operator":"equal","value":{"fact":"weight","params":{"unit":"lbs"},"path":".value"},"fact":"age"}}')
     })
   })
 
@@ -266,6 +288,24 @@ describe('Condition', () => {
       const conditions = condition()
       conditions.all = { foo: true }
       expect(() => new Condition(conditions)).to.throw(/"all" must be an array/)
+    })
+
+    it('throws if is an array and condition is "not"', () => {
+      const conditions = {
+        not: [{ foo: true }]
+      }
+      expect(() => new Condition(conditions)).to.throw(/"not" cannot be an array/)
+    })
+
+    it('does not throw if is not an array and condition is "not"', () => {
+      const conditions = {
+        not: {
+          fact: 'foo',
+          operator: 'equal',
+          value: 'bar'
+        }
+      }
+      expect(() => new Condition(conditions)).to.not.throw()
     })
   })
 

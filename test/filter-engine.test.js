@@ -9,6 +9,13 @@ describe('Filter-Engine', () => {
   beforeEach(() => {
     filterEngine = new FilterEngine()
   })
+
+  it('has methods for managing conditions and running itself', () => {
+    expect(filterEngine).to.have.property('addCondition')
+    expect(filterEngine).to.have.property('removeCondition')
+    expect(filterEngine).to.have.property('run')
+  })
+
   describe('constructor', () => {
     it('initializes with no condition', () => {
       expect(filterEngine.conditions.length).to.equal(0)
@@ -77,11 +84,13 @@ describe('Filter-Engine', () => {
     function setup () {
       const condition1 = new Condition(factories.condition({
         fact: 'age',
-        value: 50
+        value: 50,
+        name: 'ageIs50'
       }))
       const condition2 = new Condition(factories.condition({
         fact: 'height',
-        value: 6
+        value: 6,
+        name: 'heightIs6'
       }))
 
       filterEngine.addCondition(condition1)
@@ -89,33 +98,24 @@ describe('Filter-Engine', () => {
 
       return [condition1, condition2]
     }
-    context('remove by anonymous object', () => {
+    context('remove by name', () => {
       it('removes a single condition', () => {
-        setup()
-        const condition1 = factories.condition({
-          fact: 'height',
-          value: 6
-        })
+        const [condition1] = setup()
 
         expect(filterEngine.conditions.length).to.equal(2)
-
-        const isRemoved = filterEngine.removeCondition(condition1)
+        const isRemoved = filterEngine.removeCondition(condition1.name)
 
         expect(isRemoved).to.be.true()
         expect(filterEngine.conditions.length).to.equal(1)
       })
 
-      it('removes many conditions with exact same properties', () => {
+      it('removes many conditions with same name', () => {
         const [condition1] = setup()
-        const conditionToDelete = factories.condition({
-          fact: 'age',
-          value: 50
-        })
 
         filterEngine.addCondition(condition1)
         expect(filterEngine.conditions.length).to.equal(3)
 
-        const isRemoved = filterEngine.removeCondition(conditionToDelete)
+        const isRemoved = filterEngine.removeCondition(condition1.name)
 
         expect(isRemoved).to.be.true()
         expect(filterEngine.conditions.length).to.equal(1)
@@ -125,26 +125,7 @@ describe('Filter-Engine', () => {
         setup()
         expect(filterEngine.conditions.length).to.equal(2)
 
-        const condition3 = factories.condition({
-          fact: 'min-age',
-          value: 51
-        })
-
-        const isRemoved = filterEngine.removeCondition(condition3)
-
-        expect(isRemoved).to.be.false()
-        expect(filterEngine.conditions.length).to.equal(2)
-      })
-
-      it('returns false when object is not a condition', () => {
-        setup()
-        expect(filterEngine.conditions.length).to.equal(2)
-
-        const condition3 = {
-          age: 32
-        }
-
-        const isRemoved = filterEngine.removeCondition(condition3)
+        const isRemoved = filterEngine.removeCondition('amountIsOver5')
 
         expect(isRemoved).to.be.false()
         expect(filterEngine.conditions.length).to.equal(2)

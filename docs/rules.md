@@ -14,7 +14,7 @@ Rules contain a set of _conditions_ and a single _event_.  When the engine is ru
     * [toJSON(Boolean stringify = true)](#tojsonboolean-stringify--true)
 * [Conditions](#conditions)
     * [Basic conditions](#basic-conditions)
-    * [Boolean expressions: all and any](#boolean-expressions-all-and-any)
+    * [Boolean expressions: all, any and not](#boolean-expressions-all-any-and-not)
     * [Condition helpers: params](#condition-helpers-params)
     * [Condition helpers: path](#condition-helpers-path)
     * [Condition helpers: custom path resolver](#condition-helpers-custom-path-resolver)
@@ -116,6 +116,7 @@ Rule conditions are a combination of facts, operators, and values that determine
 ### Basic conditions
 
 The simplest form of a condition consists of a `fact`, an `operator`, and a `value`.  When the engine runs, the operator is used to compare the fact against the value.
+An optional property `name` is also permitted to give a human readable name for a condition.
 
 ```js
 // my-fact <= 1
@@ -125,7 +126,8 @@ let rule = new Rule({
       {
         fact: 'my-fact',
         operator: 'lessThanInclusive',
-        value: 1
+        value: 1,
+        name: 'My fact is less or equal to 1'
       }
     ]
   }
@@ -134,9 +136,9 @@ let rule = new Rule({
 
 See the [hello-world](../examples/01-hello-world.js) example.
 
-### Boolean expressions: `all` and `any`
+### Boolean expressions: `all`, `any`, and `not`
 
-Each rule's conditions *must* have either an `all` or an `any` operator at its root, containing an array of conditions.  The `all` operator specifies that all conditions contained within must be truthy for the rule to be considered a `success`.  The `any` operator only requires one condition to be truthy for the rule to succeed.
+Each rule's conditions *must* have an `all` or `any` operator containing an array of conditions at its root or a `not` operator containing a single condition.  The `all` operator specifies that all conditions contained within must be truthy for the rule to be considered a `success`.  The `any` operator only requires one condition to be truthy for the rule to succeed. The `not` operator will negate whatever condition it contains.
 
 ```js
 // all:
@@ -158,14 +160,23 @@ let rule = new Rule({
       { /* condition 2 */ },
       { /* condition n */ },
       {
-        all: [ /* more conditions */ ]
+        not: {
+          all: [ /* more conditions */ ]
+        }
       }
     ]
   }
 })
+
+// not:
+let rule = new Rule({
+  conditions: {
+    not: { /* condition */ }
+  }
+})
 ```
 
-Notice in the second example how `all` and `any` can be nested within one another to produce complex boolean expressions.  See the [nested-boolean-logic](../examples/02-nested-boolean-logic.js) example.
+Notice in the second example how `all`, `any`, and `not` can be nested within one another to produce complex boolean expressions.  See the [nested-boolean-logic](../examples/02-nested-boolean-logic.js) example.
 
 ### Condition helpers: `params`
 
@@ -318,7 +329,7 @@ engine.on('failure', function(event, almanac, ruleResult) {
 
 ## Operators
 
-Each rule condition must begin with a boolean operator(```all``` or ```any```) at its root.
+Each rule condition must begin with a boolean operator(```all```, ```any```, or ```not```) at its root.
 
 The ```operator``` compares the value returned by the ```fact``` to what is stored in the ```value``` property.  If the result is truthy, the condition passes.
 
