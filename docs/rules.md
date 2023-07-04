@@ -116,7 +116,7 @@ Rule conditions are a combination of facts, operators, and values that determine
 ### Basic conditions
 
 The simplest form of a condition consists of a `fact`, an `operator`, and a `value`.  When the engine runs, the operator is used to compare the fact against the value.
-An optional property `name` is also permitted to give a human readable name for a condition.
+An optional property `name` is also permitted to give a human readable name for a condition. This is usually of type `String`, but could also be `Object`, `Array`, or `Number`.
 
 ```js
 // my-fact <= 1
@@ -127,7 +127,7 @@ let rule = new Rule({
         fact: 'my-fact',
         operator: 'lessThanInclusive',
         value: 1,
-        name: 'My fact is less or equal to 1'
+        name: 'myFactIsLessOrEqualToOne'
       }
     ]
   }
@@ -136,7 +136,7 @@ let rule = new Rule({
 
 See the [hello-world](../examples/01-hello-world.js) example.
 
-### Boolean expressions: `all`, `any`, and `not`
+### Boolean expressions: `all`, `any` and `not`
 
 Each rule's conditions *must* have an `all` or `any` operator containing an array of conditions at its root or a `not` operator containing a single condition.  The `all` operator specifies that all conditions contained within must be truthy for the rule to be considered a `success`.  The `any` operator only requires one condition to be truthy for the rule to succeed. The `not` operator will negate whatever condition it contains.
 
