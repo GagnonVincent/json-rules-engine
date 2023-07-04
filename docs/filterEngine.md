@@ -6,7 +6,7 @@ An instance of [Engine](./engine.md) is used underneath and run all the conditio
 * [Methods](#methods)
     * [constructor([Array conditions | String json])](#constructorarray-conditions--string-json)
     * [filterEngine.addCondition(Condition instance | Object options)](#filterengineaddconditioncondition-instance--object-options)
-    * [filterEngine.removeCondition(Condition instance | Object options)](#filterengineremoveconditioncondition-instance--object-options---boolean)
+    * [filterEngine.removeCondition(Condition instance | Object | String)](#filterengineremoveconditioncondition-instance--object-options--string---boolean)
     * [filterEngine.run(Objects []) -&gt; Promise (Objects [])](#filterenginerunobjects----promiseobjects-)
 
 ## Methods
@@ -37,7 +37,8 @@ filterEngine.addCondition({
       operator: 'lessThanInclusive',
       value: 1
     }
-  ]
+  ],
+  name: 'ageIsLessOrEqualsTo21'
 })
 
 // or condition instance:
