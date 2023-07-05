@@ -1,6 +1,6 @@
 {
   "name": "json-rules-engine",
-  "version": "6.1.2",
+  "version": "6.2.0",
   "description": "Rules Engine expressed in simple json",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -55,6 +55,9 @@
     ]
   },
   "author": "Cache Hamm <cache.hamm@gmail.com>",
+  "contributors": [
+    "Chris Pardy <chris.pardy@ownup.com>"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cachecontrol/json-rules-engine/issues"
@@ -85,8 +88,8 @@
   "dependencies": {
     "clone": "^2.1.2",
     "eventemitter2": "^6.4.4",
-    "hash-it": "^5.0.0",
-    "jsonpath-plus": "^5.0.7",
+    "hash-it": "^6.0.0",
+    "jsonpath-plus": "^7.2.0",
     "lodash.isobjectlike": "^4.0.0"
   }
 }

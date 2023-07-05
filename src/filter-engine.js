@@ -43,21 +43,12 @@ class FilterEngine {
 
   /**
    * Remove a condition from the FilterEngine.
-   * @param {object|Condition} condition - Condition definition. Must be a instance of Condition.
+   * @param {object|Condition|string} condition - Condition definition. Must be a instance of Condition.
    */
   removeCondition (condition) {
     let conditionRemoved = false
     if (!(condition instanceof Condition)) {
-      // If the other condition is not an instance of Condition, we compare the JSON representation
-      // of the objects. Must have the exact same properties / values.
-      let otherCondition
-
-      try {
-        otherCondition = new Condition(condition).toJSON()
-      } catch (error) {
-        return false
-      }
-      const filteredConditions = this.conditions.filter(conditionInEngine => conditionInEngine.toJSON() !== otherCondition)
+      const filteredConditions = this.conditions.filter(conditionInEngine => conditionInEngine.name !== condition)
       conditionRemoved = filteredConditions.length !== this.conditions.length
       this.conditions = filteredConditions
     } else {

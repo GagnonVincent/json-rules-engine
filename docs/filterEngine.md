@@ -6,7 +6,7 @@ An instance of [Engine](./engine.md) is used underneath and run all the conditio
 * [Methods](#methods)
     * [constructor([Array conditions | String json])](#constructorarray-conditions--string-json)
     * [filterEngine.addCondition(Condition instance | Object options)](#filterengineaddconditioncondition-instance--object-options)
-    * [filterEngine.removeCondition(Condition instance | Object options)](#filterengineremoveconditioncondition-instance--object-options---boolean)
+    * [filterEngine.removeCondition(Condition instance | Object | String)](#filterengineremoveconditioncondition-instance--object--string---boolean)
     * [filterEngine.run(Objects []) -&gt; Promise (Objects [])](#filterenginerunobjects----promiseobjects-)
 
 ## Methods
@@ -37,7 +37,8 @@ filterEngine.addCondition({
       operator: 'lessThanInclusive',
       value: 1
     }
-  ]
+  ],
+  name: 'ageIsLessOrEqualsTo21'
 })
 
 // or condition instance:
@@ -47,9 +48,9 @@ filterEngine.addCondition(condition)
 Link to the [Conditions documentation](./rules.md#conditions)
 
 
-### filterEngine.removeCondition(Condition instance | Object options) -> Boolean
+### filterEngine.removeCondition(Condition instance | Object | String) -> Boolean
 
-Removes a condition from the filter engine, either by passing a condition instance or an options object. When removing by options object, all conditions having the exact same properties / values will be removed.
+Removes a condition from the filter engine, either by passing a condition instance or an object / string witch represant the name of the condition. When removing by name, all conditions having the exact same name will be removed.
 
 Method returns true when condition was successfully remove, or false when not found.
 
@@ -60,21 +61,16 @@ let condition = new Condition({
       fact: 'age',
       operator: 'lessThan',
       value: 21
-    }]
+    }],
+    name: 'ageIsLessThan21'
   })
 
 filterEngine.addCondition(condition)
 
 //remove it by instance
 filterEngine.removeCondition(condition)
-//or by options
-filterEngine.removeCondition({
-    any: [{
-      fact: 'age',
-      operator: 'lessThan',
-      value: 21
-    }]
-  })
+//or by name
+filterEngine.removeCondition('ageIsLessThan21')
 ```
 
 ### filterEngine.run(Objects []) -> Promise(Objects [])
